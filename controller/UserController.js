@@ -7,7 +7,7 @@ const JWT_SECRET = "amar1090"
 
 export const singup = async (req, res) => {
     try {
-        const { fullname, email, password ,role} = req.body;
+        const { fullname, email, password, role } = req.body;
         const users = await User.findOne({ email })
         if (users) {
             return res.status(400).json({ message: "User already exists" })
@@ -17,20 +17,20 @@ export const singup = async (req, res) => {
             fullname: fullname,
             email: email,
             password: hashPassword,
-            role:role
+            role: role
         })
 
-        res.status(200).json({ message: "User created successfully",success:true, createUser })
+        res.status(200).json({ message: "User created successfully", success: true, createUser })
     } catch (error) {
         // console.log("Error:", error:error.message);
-        res.status(500).json({ message: "Internal server error",success:false, error: error.message })
+        res.status(500).json({ message: "Internal server error", success: false, error: error.message })
 
     }
 };
 
 export const login = async (req, res) => {
     try {
-        const { email, password,role } = req.body;
+        const { email, password, role } = req.body;
         const user = await User.findOne({ email });
 
         if (!user) {
@@ -41,7 +41,7 @@ export const login = async (req, res) => {
         if (!matchPassword) {
             return res.json({ message: "Invalid email or password", success: false });
         }
-        if(user.role!=role){
+        if (user.role != role) {
             return res.json({ message: "Invalid role", success: false });
         }
 
@@ -55,7 +55,7 @@ export const login = async (req, res) => {
                 id: user._id,
                 fullname: user.fullname,
                 email: user.email,
-                role:user.role
+                role: user.role
             }
         });
 
